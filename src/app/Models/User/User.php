@@ -6,10 +6,9 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use App\Constants\UserConstants;
 
-class User extends Authenticatable implements JWTSubject {
+class User extends Authenticatable implements JWTSubject
+{
     use Notifiable;
 
     /**
@@ -28,7 +27,7 @@ class User extends Authenticatable implements JWTSubject {
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'avatar'
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -37,8 +36,7 @@ class User extends Authenticatable implements JWTSubject {
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
-        'forgot_password_token', 'forgot_password_date'
+        'password',
     ];
 
     /**
@@ -67,7 +65,7 @@ class User extends Authenticatable implements JWTSubject {
      * @param string $rawPassword
      * @return void
      */
-    public function setPasswordAttribute(string $rawPassword) : void
+    public function setPasswordAttribute(string $rawPassword): void
     {
         $this->attributes['password'] = bcrypt($rawPassword);
     }
@@ -79,30 +77,8 @@ class User extends Authenticatable implements JWTSubject {
      * @param string $email
      * @return void
      */
-    public function scopeWithEmail(Builder $query, string $email) : Builder
+    public function scopeWithEmail(Builder $query, string $email): Builder
     {
         return $query->where('email', $email);
-    }
-
-    /**
-     * Remove token and date for reset password
-     * from model
-     *
-     * @return void
-     */
-    public function resetForgotPasswordToken() : void
-    {
-        $this->forgot_password_token = null;
-        $this->forgot_password_date = null;
-    }
-
-    /**
-     * Generate email verification token
-     *
-     * @return void
-     */
-    public function generateVerifyToken()
-    {
-        $this->verify_token = Str::random(UserConstants::VERIFY_EMAIL_TOKEN_LENGTH);
     }
 }

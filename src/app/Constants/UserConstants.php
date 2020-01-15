@@ -4,7 +4,18 @@ namespace App\Constants;
 
 use Illuminate\Support\Str;
 
-class UserConstants {
+class UserConstants
+{
+    const ROLE_AUTHOR = 'author';
+    const ROLE_REVIEWER = 'reviewer';
+    const ROLE_EDITOR = 'editor';
+
+    const ROLES = [
+        self::ROLE_AUTHOR,
+        self::ROLE_REVIEWER,
+        self::ROLE_EDITOR,
+    ];
+
     const AVATAR_PATH = '/users/';
 
     const AVATAR_EXTENSION = 'jpg';
@@ -23,8 +34,8 @@ class UserConstants {
      * @param integer $userId
      * @return string
      */
-    public static function formatAvatarPath(int $userId) : string
+    public static function formatAvatarPath(int $userId): string
     {
-        return self::AVATAR_PATH.$userId.'/'.Str::random().'.'.self::AVATAR_EXTENSION;
+        return self::AVATAR_PATH . $userId . '/' . Str::random() . '.' . self::AVATAR_EXTENSION;
     }
 }

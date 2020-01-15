@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use App\Types\File\CompressImage;
 
-class FilesService {
+class FilesService
+{
     /**
      * Compress image to passed width and height
      *
@@ -18,7 +19,7 @@ class FilesService {
      * @param integer $height
      * @return string
      */
-    public function compressAndSaveImage(string $path, CompressImage $imageInfo) : string
+    public function compressAndSaveImage(string $path, CompressImage $imageInfo): string
     {
         $image = Image::make($imageInfo->getFile());
         $image->orientate();

@@ -8,7 +8,8 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 use App\Exceptions\TokenExpiredException;
 
-class AuthService {
+class AuthService
+{
     /**
      * Get the token array structure.
      *
@@ -34,7 +35,7 @@ class AuthService {
      */
     public function login($credentials)
     {
-        if (!$token=auth()->attempt($credentials)) {
+        if (!$token = auth()->attempt($credentials)) {
             throw new UnauthorizedException;
         }
 

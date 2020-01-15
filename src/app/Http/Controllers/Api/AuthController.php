@@ -7,7 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserLoginRequest;
 use App\Http\Requests\User\UserCreateRequest;
 
-class AuthController extends Controller {
+class AuthController extends Controller
+{
     private $_authService;
 
     /**
@@ -19,8 +20,7 @@ class AuthController extends Controller {
     {
         $this->_authService = $authService;
 
-        $this->middleware('auth:api', ['except' => [ 'login', 'register', 'refresh' ]]);
-        $this->middleware('email-verified', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'refresh']]);
     }
 
     /**
@@ -165,26 +165,5 @@ class AuthController extends Controller {
         auth()->logout();
 
         return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    /**
-     * @SWG\Post(
-     *   tags={"Auth"},
-     *   path="/auth/refresh",
-     *   summary="Refresh JWT token",
-     *   operationId="refresh",
-     *   produces={"application/json"},
-     *   @SWG\Response(response=200, description="Successful operation"),
-     *   @SWG\Response(response=401, description="Unauthorized"),
-     *   @SWG\Response(response=500, description="Internal server error"),
-     *   security={{"authorization_token":{}}}
-     * )
-     *
-     * @param UserRefreshTokenRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return response()->json($this->_authService->refresh());
     }
 }

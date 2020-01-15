@@ -5,7 +5,8 @@ namespace App\Http\Requests\User;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Rules\ReCaptcha\ApplyReCaptchaRulesTrait;
 
-class UserCreateRequest extends FormRequest {
+class UserCreateRequest extends FormRequest
+{
     use ApplyReCaptchaRulesTrait;
     /**
      * Determine if the user is authorized to make this request.

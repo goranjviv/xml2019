@@ -20,4 +20,9 @@ class ArticleService
         // store the file in a repo
         return $this->articleRepo->save($id, $article->get());
     }
+
+    public function publicIndex()
+    {
+        return $this->articleRepo->getAll();
+    }
 }

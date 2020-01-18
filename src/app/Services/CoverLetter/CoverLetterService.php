@@ -20,4 +20,14 @@ class CoverLetterService
         // store the file in a repo
         return $this->coverLetterRepo->save($id, $coverLetter->get());
     }
+
+    public function index()
+    {
+        return $this->coverLetterRepo->getAll();
+    }
+
+    public function show(string $id)
+    {
+        return $this->coverLetterRepo->getById($id);
+    }
 }

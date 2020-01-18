@@ -36,4 +36,10 @@ Route::group(['namespace' => 'Api'], function () {
             Route::post('/', 'ArticleCoverLetter\ArticleCoverLetterController@store');
         });
     });
+
+    Route::group([
+        'prefix' => 'articles',
+    ], function () {
+        Route::get('/', 'ArticleCoverLetter\ArticleCoverLetterController@index');
+    });
 });

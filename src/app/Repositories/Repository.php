@@ -7,16 +7,22 @@ use Illuminate\Support\Facades\Storage;
 
 class Repository
 {
-    private $documentPrefix;
     private $disk;
     private $path;
 
     public function __construct(string $documentPrefix)
     {
-        $this->documentPrefix = $documentPrefix;
-        var_dump(config('repositories.disk'));
         $this->disk = Storage::disk(config('repositories.disk'));
-        $this->path = config('repositories.path');
+        $this->path = config('repositories.path') . '/' . $documentPrefix;
+    }
+
+    public function getById(string $id)
+    {
+        $filePath = $this->path . '/' . $id;
+
+        return $this->disk->exists($filePath)
+            ? $this->disk->get($filePath)
+            : null;
     }
 
     // e.g. comparatorFn: (fieldValue, value) => fieldValue === value;
@@ -24,12 +30,13 @@ class Repository
     {
         $results = [];
 
-        // filenames in $this->path . '/' . $this->documentPrefix
-        $files = $this->disk->files($this->path . '/' . $this->documentPrefix);
+        // filenames in $this->path
+        $files = $this->disk->files($this->path);
         foreach ($files as $file) {
             $fileContent =  $this->disk->get($file);
-            // create xml handler from fileContent
-            $xml = DOMDocument::loadXML($fileContent);
+            // TODO: create xml handler from fileContent
+            // $domDocument = new DOMDocument;
+            // $domDocument->loadXML($fileContent);
             // TODO: field values
             $fieldValues = [];
             $fits = true;
@@ -41,7 +48,7 @@ class Repository
             }
 
             if ($fits) {
-                $results[$file] = $fileContent;
+                $results[last(explode('/', $file))] = $fileContent;
             }
         }
 
@@ -60,13 +67,20 @@ class Repository
             : null;
     }
 
+    public function getAll()
+    {
+        return $this->getBy([], [], function ($fieldValue, $value) {
+            return true;
+        });
+    }
+
     public function save(string $id, string $fileContents)
     {
         // TODO: validate the file contents against xml schema
 
         // write the file contents
         $this->disk->put(
-            $this->path . '/' . $this->documentPrefix . '/' . $id,
+            $this->path . '/' . $id,
             $fileContents
         );
 

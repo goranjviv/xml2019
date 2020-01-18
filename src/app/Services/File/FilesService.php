@@ -3,7 +3,6 @@
 namespace App\Services\File;
 
 use Intervention\Image\ImageManagerStatic as Image;
-use App\Types\Files\CompressFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 use App\Types\File\CompressImage;

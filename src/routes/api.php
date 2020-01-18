@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Route;
+
 Route::group(['namespace' => 'Api'], function () {
     Route::group(['prefix' => 'auth'], function ($router) {
         Route::post('register', 'AuthController@register');
@@ -26,6 +28,12 @@ Route::group(['namespace' => 'Api'], function () {
         ], function () {
             Route::post('change-password', 'UserController@changePassword');
             Route::post('/', 'UserController@updateProfile');
+        });
+
+        Route::group([
+            'prefix' => 'articles',
+        ], function () {
+            Route::post('/', 'ArticleCoverLetter\ArticleCoverLetterController@store');
         });
     });
 });
